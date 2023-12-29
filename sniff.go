@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 
-	"github.com/google/gopacket"
 	_ "github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
 )
@@ -13,16 +12,27 @@ const (
 )
 
 func main() {
-	handle, err := pcap.OpenLive("lo", defaultSnapLen, true, pcap.BlockForever)
+	interfaces, err := pcap.FindAllDevs()
 	if err != nil {
 		panic(err)
 	}
-	defer handle.Close()
-	if err := handle.SetBPFFilter("port 3030"); err != nil {
-		panic(err)
+	fmt.Println("Interfaces found: ")
+	for _, i := range interfaces {
+		fmt.Printf("\tName: %s\n", i.Name)
+		fmt.Printf("\tDesc: %s\n", i.Description)
+		fmt.Printf("\tFlag: %v\n", i.Flags)
+		fmt.Println()
 	}
-	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
-	for pkt := range packets {
-		fmt.Println(pkt.Metadata().AncillaryData...)
-	}
+	// handle, err := pcap.OpenLive("eth0", defaultSnapLen, true, pcap.BlockForever)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer handle.Close()
+	// if err := handle.SetBPFFilter("port 3030"); err != nil {
+	// 	panic(err)
+	// }
+	// packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
+	// for pkt := range packets {
+	// 	fmt.Println(pkt.Metadata().AncillaryData...)
+	// }
 }
