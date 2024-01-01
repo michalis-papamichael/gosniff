@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	// default snapshot length used for tcpdump as well
 	defaultSnapLen = 1024
 )
 
@@ -44,11 +43,11 @@ func main() {
 		panic(err)
 	}
 	defer handle.Close()
-	if err := handle.SetBPFFilter("port 3030"); err != nil {
-		panic(err)
-	}
+	// if err := handle.SetBPFFilter("port 3030"); err != nil {
+	// 	panic(err)
+	// }
 	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
 	for pkt := range packets {
-		fmt.Println(pkt.Metadata().AncillaryData...)
+		fmt.Println(pkt)
 	}
 }
