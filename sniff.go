@@ -43,9 +43,9 @@ func main() {
 		panic(err)
 	}
 	defer handle.Close()
-	// if err := handle.SetBPFFilter("port 3030"); err != nil {
-	// 	panic(err)
-	// }
+	if err := handle.SetBPFFilter("arp"); err != nil {
+		panic(err)
+	}
 	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
 	for pkt := range packets {
 		fmt.Println(pkt)
