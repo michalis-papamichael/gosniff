@@ -1,4 +1,4 @@
-package main
+package gosniff
 
 import (
 	"fmt"
@@ -33,21 +33,18 @@ func PrintMachineInterfaces() error {
 	return nil
 }
 
-func main() {
-	err := PrintMachineInterfaces()
-	if err != nil {
-		panic(err)
-	}
+func SniffPackets(bpfFIlter string) error {
 	handle, err := pcap.OpenLive("wlp2s0", defaultSnapLen, true, pcap.BlockForever)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer handle.Close()
-	if err := handle.SetBPFFilter("arp"); err != nil {
-		panic(err)
+	if err := handle.SetBPFFilter(bpfFIlter); err != nil {
+		return err
 	}
 	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
 	for pkt := range packets {
 		fmt.Println(pkt)
 	}
+	return nil
 }
