@@ -54,8 +54,12 @@ func PrintDeviceInterfaces() error {
 	return nil
 }
 
-func SniffPackets(interfaceName string, bpfExpr string) error {
-	handle, err := pcap.OpenLive(interfaceName, defaultSnapLen, true, pcap.BlockForever)
+func SniffPackets(bpfExpr string) error {
+	Interface, err := GetPermanentMacAddress()
+	if err != nil {
+		return err
+	}
+	handle, err := pcap.OpenLive(Interface.Name, defaultSnapLen, true, pcap.BlockForever)
 	if err != nil {
 		return err
 	}
@@ -68,8 +72,4 @@ func SniffPackets(interfaceName string, bpfExpr string) error {
 		fmt.Println(pkt.TransportLayer())
 	}
 	return nil
-}
-
-func getMacAddress(interfaceName string) {
-
 }
