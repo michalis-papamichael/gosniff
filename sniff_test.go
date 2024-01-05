@@ -3,7 +3,7 @@ package gosniff
 import "testing"
 
 func TestSniffPackets(t *testing.T) {
-	err := PrintDeviceInterfaces()
+	err := SniffPackets("tcp && ip")
 	if err != nil {
 		t.Fatal(err)
 		panic(err)
