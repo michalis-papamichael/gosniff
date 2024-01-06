@@ -2,6 +2,7 @@ package gosniff
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/google/gopacket"
 	_ "github.com/google/gopacket/layers"
@@ -12,6 +13,7 @@ type Sniffer struct {
 	InterfaceName  *string
 	BpfFilterExpr  *string
 	SnapshotLength int32
+	Duration       time.Duration
 }
 
 func (s *Sniffer) StartSniff() error {
@@ -34,9 +36,14 @@ func (s *Sniffer) StartSniff() error {
 		}
 	}
 	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
-	for pkt := range packets {
-		fmt.Println(pkt)
-	}
+
+	go func() {
+		for pkt := range packets {
+			fmt.Println(pkt)
+		}
+	}()
+	<-time.After(s.Duration)
+	handle.Close()
 	return nil
 }
 
