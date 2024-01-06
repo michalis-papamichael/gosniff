@@ -14,6 +14,7 @@ type Sniffer struct {
 	BpfFilterExpr  *string
 	SnapshotLength int32
 	Duration       time.Duration
+	Promiscuous    bool
 }
 
 func (s *Sniffer) StartSniff() error {
@@ -23,7 +24,7 @@ func (s *Sniffer) StartSniff() error {
 		return err
 	}
 
-	handle, err := pcap.OpenLive(*iname, s.SnapshotLength, true, pcap.BlockForever)
+	handle, err := pcap.OpenLive(*iname, s.SnapshotLength, s.Promiscuous, s.Duration)
 	if err != nil {
 		return err
 	}
@@ -35,15 +36,11 @@ func (s *Sniffer) StartSniff() error {
 			return err
 		}
 	}
-	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
 
-	go func() {
-		for pkt := range packets {
-			fmt.Println(pkt)
-		}
-	}()
-	<-time.After(s.Duration)
-	handle.Close()
+	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
+	for pkt := range packets {
+		fmt.Println(pkt)
+	}
 	return nil
 }
 

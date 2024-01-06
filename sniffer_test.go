@@ -7,8 +7,9 @@ import (
 
 func TestSniffPackets(t *testing.T) {
 	// iname := "lo"
-	filter := "arp"
-	s := Sniffer{InterfaceName: nil, BpfFilterExpr: &filter, SnapshotLength: 1024, Duration: 10 * time.Second}
+	filter := "tcp"
+	s := Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
+		SnapshotLength: 1024, Duration: 10 * time.Second, Promiscuous: false}
 	err := s.StartSniff()
 	if err != nil {
 		t.Fatal(err)
