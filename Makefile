@@ -2,10 +2,10 @@ install_libcap:
 	sudo apt-get install libpcap-dev
 
 build_and_run:
-	go build -o build/sniff sniff.go
-	sudo ./build/sniff
+	go build -o build/sniffer sniffer.go
+	sudo ./build/sniffer
 
 compile_and_run_tests:
 	go test -c
-	mv ./sniff.go.test ./build/tests/sniff.go.test
-	sudo ./build/tests/sniff.go.test
+	mv ./sniffer.go.test ./build/tests/sniffer.go.test
+	sudo ./build/tests/sniffer.go.test

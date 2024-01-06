@@ -1,4 +1,4 @@
-module sniff.go
+module sniffer.go
 
 go 1.21.4
 
