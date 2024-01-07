@@ -1,7 +1,6 @@
 package gosniff
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/google/gopacket"
@@ -15,33 +14,36 @@ type Sniffer struct {
 	SnapshotLength int32
 	Duration       time.Duration
 	Promiscuous    bool
+	handle         *pcap.Handle
+	// PacketChannel  chan gopacket.Packet
 }
 
-func (s *Sniffer) StartSniff() error {
+func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 
 	iname, err := s.getInterfaceName()
 	if err != nil {
-		return err
+		return nil, err
 	}
-
 	handle, err := pcap.OpenLive(*iname, s.SnapshotLength, s.Promiscuous, s.Duration)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	defer handle.Close()
+	s.handle = handle
+	// defer handle.Close()
 
 	bpfExpr := s.getBpfFIlterExpr()
 	if bpfExpr != nil {
 		if err := handle.SetBPFFilter(*bpfExpr); err != nil {
-			return err
+			return nil, err
 		}
 	}
 
-	packets := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
-	for pkt := range packets {
-		fmt.Println(pkt)
-	}
-	return nil
+	pktChan := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
+	return pktChan, nil
+}
+
+func (s *Sniffer) Close() {
+	s.handle.Close()
 }
 
 func (s *Sniffer) getInterfaceName() (*string, error) {
