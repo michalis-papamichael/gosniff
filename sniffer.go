@@ -15,11 +15,9 @@ type Sniffer struct {
 	Duration       time.Duration
 	Promiscuous    bool
 	handle         *pcap.Handle
-	// PacketChannel  chan gopacket.Packet
 }
 
 func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
-
 	iname, err := s.getInterfaceName()
 	if err != nil {
 		return nil, err
@@ -29,11 +27,9 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 		return nil, err
 	}
 	s.handle = handle
-	// defer handle.Close()
 
-	bpfExpr := s.getBpfFIlterExpr()
-	if bpfExpr != nil {
-		if err := handle.SetBPFFilter(*bpfExpr); err != nil {
+	if s.BpfFilterExpr != nil {
+		if err := handle.SetBPFFilter(*s.BpfFilterExpr); err != nil {
 			return nil, err
 		}
 	}
@@ -56,8 +52,4 @@ func (s *Sniffer) getInterfaceName() (*string, error) {
 	} else {
 		return s.InterfaceName, nil
 	}
-}
-
-func (s *Sniffer) getBpfFIlterExpr() *string {
-	return s.BpfFilterExpr
 }
