@@ -39,6 +39,7 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 }
 
 func (s *Sniffer) Close() {
+
 	s.handle.Close()
 }
 
