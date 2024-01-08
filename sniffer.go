@@ -33,13 +33,11 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 			return nil, err
 		}
 	}
-
 	pktChan := gopacket.NewPacketSource(handle, handle.LinkType()).Packets()
 	return pktChan, nil
 }
 
 func (s *Sniffer) Close() {
-
 	s.handle.Close()
 }
 
