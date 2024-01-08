@@ -43,7 +43,7 @@ func (s *Sniffer) Close() {
 
 func (s *Sniffer) getInterfaceName() (*string, error) {
 	if s.InterfaceName == nil {
-		Interface, err := GetPermanentMacAddress()
+		Interface, err := GetPhysicalInterface()
 		if err != nil {
 			return nil, err
 		}

@@ -7,7 +7,7 @@ import (
 	"github.com/google/gopacket/pcap"
 )
 
-func GetPermanentMacAddress() (*net.Interface, error) {
+func GetPhysicalInterface() (*net.Interface, error) {
 	intfs, err := net.Interfaces()
 	if err != nil {
 		return nil, err
