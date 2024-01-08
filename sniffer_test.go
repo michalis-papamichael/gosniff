@@ -8,20 +8,6 @@ import (
 	"github.com/google/gopacket/pcap"
 )
 
-func TestUtils(t *testing.T) {
-	i, err := GetPhysicalInterface()
-	if err != nil {
-		t.Fatal(err)
-		panic(err)
-	}
-	fmt.Printf("\nInterface %v\n\n", i)
-	err = PrintDeviceInterfaces()
-	if err != nil {
-		t.Fatal(err)
-		panic(err)
-	}
-}
-
 func TestSniffPackets(t *testing.T) {
 	iname := "wlp2s0"
 	filter := ""
