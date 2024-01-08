@@ -8,10 +8,14 @@ import (
 	"github.com/google/gopacket/pcap"
 )
 
+func TestUtils(t *testing.T) {
+	PrintDeviceInterfaces()
+}
+
 func TestSniffPackets(t *testing.T) {
-	// iname := "lo"
+	iname := "wlp2s0"
 	filter := ""
-	s := Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
+	s := Sniffer{InterfaceName: &iname, BpfFilterExpr: &filter,
 		SnapshotLength: 1024, Duration: pcap.BlockForever, Promiscuous: false}
 	pkts, err := s.StartSniff()
 	if err != nil {
