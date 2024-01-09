@@ -27,7 +27,6 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 		return nil, err
 	}
 	s.handle = handle
-
 	if s.BpfFilterExpr != nil {
 		if err := handle.SetBPFFilter(*s.BpfFilterExpr); err != nil {
 			return nil, err
@@ -37,8 +36,22 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 	return pktChan, nil
 }
 
-func (s *Sniffer) Close() {
+func (s *Sniffer) SetNewBpfFilter(expr string) error {
+	if err := s.handle.SetBPFFilter(*s.BpfFilterExpr); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *Sniffer) Close(getStats bool) *pcap.Stats {
+	if getStats {
+		stat, err := s.handle.Stats()
+		if err == nil {
+			return stat
+		}
+	}
 	s.handle.Close()
+	return nil
 }
 
 func (s *Sniffer) getInterfaceName() (*string, error) {
