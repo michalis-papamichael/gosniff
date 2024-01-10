@@ -14,7 +14,7 @@ type Sniffer struct {
 	SnapshotLength int32
 	Duration       time.Duration
 	Promiscuous    bool
-	handle         *pcap.Handle
+	Handle         *pcap.Handle
 }
 
 func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
@@ -26,7 +26,7 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 	if err != nil {
 		return nil, err
 	}
-	s.handle = handle
+	s.Handle = handle
 	if s.BpfFilterExpr != nil {
 		if err := handle.SetBPFFilter(*s.BpfFilterExpr); err != nil {
 			return nil, err
@@ -37,9 +37,9 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 }
 
 func (s *Sniffer) CloseAndGetStats(getStats bool) (*pcap.Stats, error) {
-	defer s.handle.Close()
+	defer s.Handle.Close()
 	if getStats {
-		stat, err := s.handle.Stats()
+		stat, err := s.Handle.Stats()
 		if err != nil {
 			return stat, err
 		}
