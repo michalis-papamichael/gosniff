@@ -43,15 +43,16 @@ func (s *Sniffer) SetNewBpfFilter(expr string) error {
 	return nil
 }
 
-func (s *Sniffer) Close(getStats bool) *pcap.Stats {
+func (s *Sniffer) CloseAndGetStats(getStats bool) (*pcap.Stats, error) {
+	defer s.handle.Close()
 	if getStats {
 		stat, err := s.handle.Stats()
-		if err == nil {
-			return stat
+		if err != nil {
+			return stat, err
 		}
+		return stat, nil
 	}
-	s.handle.Close()
-	return nil
+	return nil, nil
 }
 
 func (s *Sniffer) getInterfaceName() (*string, error) {
