@@ -36,13 +36,6 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 	return pktChan, nil
 }
 
-func (s *Sniffer) SetNewBpfFilter(expr string) error {
-	if err := s.handle.SetBPFFilter(*s.BpfFilterExpr); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (s *Sniffer) CloseAndGetStats(getStats bool) (*pcap.Stats, error) {
 	defer s.handle.Close()
 	if getStats {
