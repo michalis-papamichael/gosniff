@@ -1,6 +1,7 @@
 package gosniff
 
 import (
+	"net"
 	"time"
 
 	"github.com/google/gopacket"
@@ -50,7 +51,7 @@ func (s *Sniffer) CloseAndGetStats(getStats bool) (*pcap.Stats, error) {
 
 func (s *Sniffer) getInterfaceName() (*string, error) {
 	if s.InterfaceName == nil {
-		Interface, err := GetPhysicalInterface()
+		Interface, err := getPhysicalInterface()
 		if err != nil {
 			return nil, err
 		}
@@ -58,4 +59,17 @@ func (s *Sniffer) getInterfaceName() (*string, error) {
 	} else {
 		return s.InterfaceName, nil
 	}
+}
+
+func getPhysicalInterface() (*net.Interface, error) {
+	intfs, err := net.Interfaces()
+	if err != nil {
+		return nil, err
+	}
+	for _, i := range intfs {
+		if len(i.HardwareAddr.String()) > 0 {
+			return &i, nil
+		}
+	}
+	return nil, nil
 }

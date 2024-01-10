@@ -2,23 +2,9 @@ package gosniff
 
 import (
 	"fmt"
-	"net"
 
 	"github.com/google/gopacket/pcap"
 )
-
-func GetPhysicalInterface() (*net.Interface, error) {
-	intfs, err := net.Interfaces()
-	if err != nil {
-		return nil, err
-	}
-	for _, i := range intfs {
-		if len(i.HardwareAddr.String()) > 0 {
-			return &i, nil
-		}
-	}
-	return nil, nil
-}
 
 func PrintDeviceInterfaces() error {
 	interfaces, err := pcap.FindAllDevs()
