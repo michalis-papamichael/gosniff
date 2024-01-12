@@ -36,7 +36,7 @@ func main(){
 
  	<-time.After(15 * time.Second)
  	fmt.Println("Closing packet sniffer")
- 	stats, _ := sniffer.Close(true)
+ 	stats, _ := sniffer.Stop(true)
 }
 ```
 
