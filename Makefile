@@ -1,3 +1,4 @@
+.PHONY:install
 install:
 	sudo apt-get install libpcap-dev
 	go get github.com/michalis-papamichael/go-sniff
