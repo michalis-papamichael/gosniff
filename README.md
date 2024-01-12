@@ -6,7 +6,7 @@ A simple packet sniffer that makes use of gopacket.
 
 ### Installation
 ```bash
-go get github.com/michalis-papamichael/go-sniff
+make install
 ```
 ### Usage
 
