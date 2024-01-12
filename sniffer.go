@@ -18,7 +18,7 @@ type Sniffer struct {
 	Handle         *pcap.Handle
 }
 
-func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
+func (s *Sniffer) Start() (chan gopacket.Packet, error) {
 	iname, err := s.getInterfaceName()
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func (s *Sniffer) StartSniff() (chan gopacket.Packet, error) {
 	return pktChan, nil
 }
 
-func (s *Sniffer) CloseAndGetStats(getStats bool) (*pcap.Stats, error) {
+func (s *Sniffer) Close(getStats bool) (*pcap.Stats, error) {
 	defer s.Handle.Close()
 	if getStats {
 		stat, err := s.Handle.Stats()

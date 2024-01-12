@@ -14,7 +14,7 @@ func TestSniffPackets(t *testing.T) {
 	filter := "tcp"
 	sniffer := Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
 		SnapshotLength: 1024, Duration: pcap.BlockForever, Promiscuous: false}
-	pkts, err := sniffer.StartSniff()
+	pkts, err := sniffer.Start()
 	if err != nil {
 		t.Fatal(err)
 		panic(err)
@@ -28,7 +28,7 @@ func TestSniffPackets(t *testing.T) {
 	}()
 	<-time.After(15 * time.Second)
 	log.Info("Closing packet sniffer")
-	stats, _ := sniffer.CloseAndGetStats(false)
+	stats, _ := sniffer.Close(true)
 	fmt.Printf("\n Stats Received: %v\n", stats.PacketsReceived)
 	<-time.After(10 * time.Second)
 }
