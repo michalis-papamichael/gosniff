@@ -11,10 +11,14 @@ make install
 ### Usage
 
 ```go
-import gosniff "github.com/michalis-papamichael/go-sniff"
+package example
+
+import (
+	gosniff "github.com/michalis-papamichael/go-sniff"
+)
 
 func main(){
-	filter="tcp"
+	ffilter := "tcp"
 	sniffer := gosniff.Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
 		SnapshotLength: 1024, Duration: pcap.BlockForever, Promiscuous: false}
 
