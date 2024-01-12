@@ -1,5 +1,6 @@
-install_libcap:
+install:
 	sudo apt-get install libpcap-dev
+	go get github.com/michalis-papamichael/go-sniff
 
 build_and_run:
 	go build -o build/sniffer sniffer.go
