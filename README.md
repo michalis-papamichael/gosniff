@@ -25,7 +25,7 @@ func main(){
 
 	go func() {
 		for p := range pkts {
-		// ...
+		// do something
 		}
 	}()
  	<-time.After(15 * time.Second)
