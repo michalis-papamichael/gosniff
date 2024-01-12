@@ -15,7 +15,7 @@ import gosniff "github.com/michalis-papamichael/go-sniff"
 
 func main(){
 	filter="tcp"
-	sniffer := gosniffSniffer{InterfaceName: nil, BpfFilterExpr: &filter,
+	sniffer := gosniff.Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
 			SnapshotLength: 1024, Duration: pcap.BlockForever, Promiscuous: false}
 	pkts, err := sniffer.StartSniff()
 	if err != nil {
