@@ -1,4 +1,4 @@
-module gosniff
+module github.com/michalis.papamichael/gosniff
 
 go 1.21.4
 
