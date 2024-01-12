@@ -5,12 +5,12 @@ A simple packet sniffer that makes use of gopacket.
 ## Quick Start
 
 ### Installation
-```bash
+```makefile
 make install
 ```
 ### Usage
 
-```bash
+```go
 import gosniff "github.com/michalis-papamichael/go-sniff"
 
 func main(){
