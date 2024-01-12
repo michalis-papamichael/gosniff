@@ -17,6 +17,7 @@ func main(){
 	filter="tcp"
 	sniffer := gosniff.Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
 		SnapshotLength: 1024, Duration: pcap.BlockForever, Promiscuous: false}
+
 	pkts, err := sniffer.StartSniff()
 	if err != nil {
 		t.Fatal(err)
@@ -28,6 +29,7 @@ func main(){
 		// do something
 		}
 	}()
+
  	<-time.After(15 * time.Second)
  	fmt.Println("Closing packet sniffer")
  	stats, _ := sniffer.Close(true)
