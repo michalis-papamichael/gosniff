@@ -28,7 +28,7 @@ func TestSniffPackets(t *testing.T) {
 	}()
 	<-time.After(15 * time.Second)
 	log.Info("Closing packet sniffer")
-	stats, _ := sniffer.Close(true)
+	stats, _ := sniffer.Stop(true)
 	fmt.Printf("\n Stats Received: %v\n", stats.PacketsReceived)
 	<-time.After(10 * time.Second)
 }
