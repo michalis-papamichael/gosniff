@@ -1,5 +1,7 @@
 # go-sniff
 
+[![Go Doc](https://godoc.org/github.com/huandu/go-clone?status.svg)]([https://pkg.go.dev/github.com/huandu/go-clone](https://pkg.go.dev/github.com/michalis-papamichael/gosniff))
+
 A simple packet sniffer that makes use of gopacket.
 
 ## Quick Start
