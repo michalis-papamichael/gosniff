@@ -10,15 +10,21 @@ import (
 )
 
 type Sniffer struct {
-	InterfaceName  *string
-	BpfFilterExpr  *string
+	// Device interface Name
+	InterfaceName *string
+	// BPF expression for filtering
+	BpfFilterExpr *string
+	// The maximum length of the packets captured
 	SnapshotLength int32
-	Duration       time.Duration
-	Promiscuous    bool
-	Handle         *pcap.Handle
+	// The duration of the sniffer were packets will be consumed
+	Duration time.Duration
+	// Determines whether to use Promiscuous mode
+	Promiscuous bool
+	// pcap Handle
+	Handle *pcap.Handle
 }
 
-// Starts the sniffing process
+// Starts the sniffing process.
 func (s *Sniffer) Start() (chan gopacket.Packet, error) {
 	iname, err := s.getInterfaceName()
 	if err != nil {
@@ -38,7 +44,7 @@ func (s *Sniffer) Start() (chan gopacket.Packet, error) {
 	return pktChan, nil
 }
 
-// Stop's the sniffing process
+// Stop's the sniffing process with option of returning stats.
 func (s *Sniffer) Stop(getStats bool) (*pcap.Stats, error) {
 	defer s.Handle.Close()
 	if getStats {
