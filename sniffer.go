@@ -21,7 +21,7 @@ type Sniffer struct {
 	// Determines whether to use Promiscuous mode
 	Promiscuous bool
 	// pcap Handle
-	Handle *pcap.Handle
+	handle *pcap.Handle
 }
 
 // Starts the sniffing process.
@@ -34,7 +34,7 @@ func (s *Sniffer) Start() (chan gopacket.Packet, error) {
 	if err != nil {
 		return nil, err
 	}
-	s.Handle = handle
+	s.handle = handle
 	if s.BpfFilterExpr != nil {
 		if err := handle.SetBPFFilter(*s.BpfFilterExpr); err != nil {
 			return nil, err
@@ -46,15 +46,19 @@ func (s *Sniffer) Start() (chan gopacket.Packet, error) {
 
 // Stop's the sniffing process with option of returning stats.
 func (s *Sniffer) Stop(getStats bool) (*pcap.Stats, error) {
-	defer s.Handle.Close()
+	defer s.handle.Close()
 	if getStats {
-		stat, err := s.Handle.Stats()
+		stat, err := s.handle.Stats()
 		if err != nil {
 			return stat, err
 		}
 		return stat, nil
 	}
 	return nil, nil
+}
+
+func (s *Sniffer) GetHandle() *pcap.Handle {
+	return s.handle
 }
 
 func (s *Sniffer) getInterfaceName() (*string, error) {
