@@ -1,4 +1,6 @@
-# go-sniff
+# gosniff
+
+[![Go Doc](https://godoc.org/github.com/huandu/go-clone?status.svg)](https://pkg.go.dev/github.com/michalis-papamichael/gosniff)
 
 A simple packet sniffer that makes use of gopacket.
 
@@ -14,7 +16,7 @@ go get github.com/michalis-papamichael/gosniff
 package example
 
 import (
-	gosniff "github.com/michalis-papamichael/gosniff"
+	"github.com/michalis-papamichael/gosniff"
 )
 
 func main(){
