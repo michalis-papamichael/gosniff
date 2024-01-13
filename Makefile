@@ -1,14 +1,14 @@
 .PHONY:install
 install:
 	sudo apt-get install libpcap-dev
-	go get github.com/michalis-papamichael/go-sniff
+	go get github.com/michalis-papamichael/gosniff
 
-build_and_run:
-	go build -o build/sniffer sniffer.go
-	sudo ./build/sniffer
+.PHONY: make_dir
+make_dir:
+	if [ ! -d "./build" ] ; then  mkdir ./build ; if [ ! -d "./build/tests" ] ; then  mkdir ./build/tests ; fi; fi 
 
 .PHONY:tests
-tests:
+tests: make_dir	
 	go test -c
-	mv ./sniffer.go.test ./build/tests/sniffer.go.test
-	sudo ./build/tests/sniffer.go.test
+	mv ./gosniff.test ./build/tests/gosniff.go.test
+	sudo ./build/tests/gosniff.go.test

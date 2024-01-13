@@ -6,7 +6,7 @@ A simple packet sniffer that makes use of gopacket.
 
 ### Installation
 ```makefile
-make install
+go get github.com/michalis-papamichael/gosniff
 ```
 ### Usage
 
@@ -14,7 +14,7 @@ make install
 package example
 
 import (
-	gosniff "github.com/michalis-papamichael/go-sniff"
+	gosniff "github.com/michalis-papamichael/gosniff"
 )
 
 func main(){
@@ -22,7 +22,7 @@ func main(){
 	sniffer := gosniff.Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
 		SnapshotLength: 1024, Duration: pcap.BlockForever, Promiscuous: false}
 
-	pkts, err := sniffer.StartSniff()
+	pkts, err := sniffer.Start()
 	if err != nil {
 		t.Fatal(err)
 		panic(err)
@@ -41,4 +41,4 @@ func main(){
 ```
 
 ## License
-go-sniff is released under the [MIT License](https://github.com/michalis-papamichael/go-sniff/blob/main/LICENSE).
+gosniff is released under the [MIT License](https://github.com/michalis-papamichael/gosniff/blob/main/LICENSE).
