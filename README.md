@@ -13,32 +13,36 @@ go get github.com/michalis-papamichael/gosniff
 ### Usage
 
 ```go
-package example
+package main
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/michalis-papamichael/gosniff"
 )
 
 func main(){
-	ffilter := "tcp"
+	filter := "tcp"
 	sniffer := gosniff.Sniffer{InterfaceName: nil, BpfFilterExpr: &filter,
-		SnapshotLength: 1024, Duration: pcap.BlockForever, Promiscuous: false}
+		SnapshotLength: 1024, Duration: 500 * time.Microsecond, Promiscuous: false}
 
 	pkts, err := sniffer.Start()
 	if err != nil {
-		t.Fatal(err)
 		panic(err)
 	}
 
 	go func() {
 		for p := range pkts {
-		// do something
+			// do something
+			fmt.Println(p)
 		}
 	}()
 
  	<-time.After(15 * time.Second)
  	fmt.Println("Closing packet sniffer")
  	stats, _ := sniffer.Stop(true)
+	fmt.Printf("\n Packets Received: %v\n", stats.PacketsReceived)
 }
 ```
 
